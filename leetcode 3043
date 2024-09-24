@@ -1,0 +1,34 @@
+class Solution {
+public:
+    int longestCommonPrefix(vector<int>& arr1, vector<int>& arr2) {
+        set<string>prefix_store;
+        for(int i=0;i<arr1.size();i++){
+            string temp="";
+            while(arr1[i]){
+                temp+=arr1[i]%10-48;
+                arr1[i]/=10;
+            }
+            reverse(temp.begin(),temp.end());
+            string set_inserter="";
+            for(int j=0;j<temp.size();j++){
+                set_inserter+=temp[j];
+                prefix_store.insert(set_inserter);
+            }
+        }
+        int max=0;
+        for(int i=0;i<arr2.size();i++){
+            string temp="";
+             while(arr2[i]){
+                temp+=arr2[i]%10-48;
+                arr2[i]/=10;
+            }
+            reverse(temp.begin(),temp.end());
+            string checker="";
+            for(int j=0;j<temp.size();j++){
+                checker+=temp[j];
+                if(prefix_store.find(checker)!=prefix_store.end() && checker.size()>max)max=checker.size();
+            }
+        }
+        return max;
+    }
+};

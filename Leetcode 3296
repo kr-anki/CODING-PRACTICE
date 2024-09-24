@@ -1,0 +1,37 @@
+class Solution {
+public:
+    bool cando(long long time,int height,vector<int>& workerTimes){
+        for(int i=0;i<workerTimes.size();i++){
+            long long start=0;
+            long long end=time/workerTimes[i];
+            long long reduced=0;
+            while(start<=end){
+                long long mid=start+(end-start)/2;
+                long long multiplier=(((double)mid/2)*(mid+1));
+                if(time/workerTimes[i]>=multiplier){
+                    reduced=mid;
+                    start=mid+1;
+                }
+                else end=mid-1;
+            }
+            height-=reduced;
+        }
+        return height<=0;
+    }
+    long long minNumberOfSeconds(int mountainHeight, vector<int>& workerTimes) {
+        long long multiplier=(long long)mountainHeight*(mountainHeight+1)/2;
+        long long start=1;
+        long long end=*min_element(workerTimes.begin(),workerTimes.end())*multiplier;
+        long long ans=0;
+        if(workerTimes.size()==1)return end;
+        while(start<=end){
+            long long mid=start+(end-start)/2;
+            if(cando(mid,mountainHeight,workerTimes)){
+                ans=mid;
+                end=mid-1;
+            }
+            else start=mid+1;
+        }
+        return ans;
+    }
+};
